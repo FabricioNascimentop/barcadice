@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/app/genereted/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model IndicadorSocial {
+  id          String   @id @default(uuid())
+
+  municipioId String
+  municipio   Municipio @relation(fields: [municipioId], references: [id])
+
+  data        DateTime
+  etnia       Etnia
+  sexo        Sexo
+  valor       Decimal  @db.Decimal(10,2)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([municipioId, data, etnia, sexo])
+}
+
+model Municipio {
+  id   String @id @default(uuid())
+  nome String @unique
+
+  indicadores IndicadorSocial[]
+}
+enum Sexo {
+  MASCULINO
+  FEMININO
+}
+enum Etnia {
+  BRANCO
+  PRETO
+  PARDO
+  NEGRO
+  AMARELO
+  INDIGENA
+  NAO_INFORMADO
+}
