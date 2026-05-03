@@ -8,34 +8,36 @@ datasource db {
 }
 
 model RegistroEtniaSexo {
-  Id          String   @id @default(uuid())
+  Id String @id @default(uuid())
 
   MunicipioId String
   Municipio   Municipio @relation(fields: [MunicipioId], references: [Id])
 
-  Ano        Int
-  Mes        Int
-  Etnia       Etnia
-  Sexo        Sexo
-  Valor       Int
+  Ano   Int
+  Mes   Int
+  Etnia Etnia
+  Sexo  Sexo
+  Valor Int
 
-  CreatedAt   DateTime @default(now())
-  UpdatedAt   DateTime @updatedAt
+  CreatedAt DateTime @default(now())
+  UpdatedAt DateTime @updatedAt
 
   @@unique([MunicipioId, Ano, Mes, Etnia, Sexo])
 }
 
 model Municipio {
-  Id   String @id @default(uuid())
-  Nome String @unique
-  Estado String
-  Regiao String
+  Id          String              @id @default(uuid())
+  Nome        String              @unique
+  Estado      String
+  Regiao      String
   indicadores RegistroEtniaSexo[]
 }
+
 enum Sexo {
   M
   F
 }
+
 enum Etnia {
   Branco
   Preto
