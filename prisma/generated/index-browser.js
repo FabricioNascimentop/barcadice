@@ -120,6 +120,13 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.MunicipioScalarFieldEnum = {
+  Id: 'Id',
+  Nome: 'Nome',
+  Estado: 'Estado',
+  Regiao: 'Regiao'
+};
+
 exports.Prisma.RegistroEtniaSexoScalarFieldEnum = {
   Id: 'Id',
   MunicipioId: 'MunicipioId',
@@ -132,11 +139,39 @@ exports.Prisma.RegistroEtniaSexoScalarFieldEnum = {
   UpdatedAt: 'UpdatedAt'
 };
 
-exports.Prisma.MunicipioScalarFieldEnum = {
+exports.Prisma.RegistroRendaScalarFieldEnum = {
   Id: 'Id',
-  Nome: 'Nome',
-  Estado: 'Estado',
-  Regiao: 'Regiao'
+  MunicipioId: 'MunicipioId',
+  Ano: 'Ano',
+  Mes: 'Mes',
+  Categoria_renda: 'Categoria_renda',
+  Valor: 'Valor',
+  CreatedAt: 'CreatedAt',
+  UpdatedAt: 'UpdatedAt'
+};
+
+exports.Prisma.RegistroTaxasScalarFieldEnum = {
+  Id: 'Id',
+  MunicipioId: 'MunicipioId',
+  Ano: 'Ano',
+  Mes: 'Mes',
+  Codigo: 'Codigo',
+  Categoria: 'Categoria',
+  Valor: 'Valor',
+  CreatedAt: 'CreatedAt',
+  UpdatedAt: 'UpdatedAt'
+};
+
+exports.Prisma.RegistroTrabalhoInfantilScalarFieldEnum = {
+  Id: 'Id',
+  MunicipioId: 'MunicipioId',
+  Ano: 'Ano',
+  Mes: 'Mes',
+  Codigo: 'Codigo',
+  Categoria: 'Categoria',
+  Valor: 'Valor',
+  CreatedAt: 'CreatedAt',
+  UpdatedAt: 'UpdatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -163,9 +198,30 @@ exports.Sexo = exports.$Enums.Sexo = {
   F: 'F'
 };
 
+exports.Categoria_renda = exports.$Enums.Categoria_renda = {
+  Extrema_pobreza: 'Extrema_pobreza',
+  Pobreza: 'Pobreza',
+  Abaixo_meio_salario: 'Abaixo_meio_salario',
+  Acima_meio_salario: 'Acima_meio_salario'
+};
+
+exports.CategoriaTaxa = exports.$Enums.CategoriaTaxa = {
+  Taxa_acompanhamento_escolar: 'Taxa_acompanhamento_escolar',
+  Taxa_acompanhamento_saude: 'Taxa_acompanhamento_saude',
+  Taxa_att_cadastro: 'Taxa_att_cadastro',
+  Fator_1: 'Fator_1'
+};
+
+exports.CategoriaTrabalhoInfantil = exports.$Enums.CategoriaTrabalhoInfantil = {
+  Familias_trabalho_infantil: 'Familias_trabalho_infantil'
+};
+
 exports.Prisma.ModelName = {
+  Municipio: 'Municipio',
   RegistroEtniaSexo: 'RegistroEtniaSexo',
-  Municipio: 'Municipio'
+  RegistroRenda: 'RegistroRenda',
+  RegistroTaxas: 'RegistroTaxas',
+  RegistroTrabalhoInfantil: 'RegistroTrabalhoInfantil'
 };
 
 /**

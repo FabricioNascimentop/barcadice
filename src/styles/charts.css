@@ -1,4 +1,4 @@
 .teste{
-    width: 80%;
-    margin: auto;
+    width: 1000px;
+    overflow-y: scroll !important;
 }
