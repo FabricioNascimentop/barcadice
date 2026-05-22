@@ -19,7 +19,9 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "highcharts": ["./node_modules/highcharts/highcharts.js"]
+
     }
   },
   "include": [

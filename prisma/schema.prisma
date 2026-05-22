@@ -1,87 +1,84 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "./generated"
 }
 
 datasource db {
   provider = "postgresql"
 }
 
-
 model Municipio {
-  Id                      String                    @id @default(uuid())
-  Nome                    String                    @unique
-  Estado                  String
-  Regiao                  String
-  RegistroEtniaSexo       RegistroEtniaSexo[]
-  RegistroRenda           RegistroRenda[]
-  // Novas relações:
-  RegistroTaxas           RegistroTaxas[]
+  Id                       String                     @id @default(uuid())
+  Nome                     String                     @unique
+  Estado                   String
+  Regiao                   String
+  RegistroEtniaSexo        RegistroEtniaSexo[]
+  RegistroMoradoresRua     RegistroMoradoresRua[]
+  RegistroRenda            RegistroRenda[]
+  RegistroTaxas            RegistroTaxas[]
   RegistroTrabalhoInfantil RegistroTrabalhoInfantil[]
 }
 
 model RegistroEtniaSexo {
-  Id          String    @id @default(uuid())
+  Id          Int       @id @default(autoincrement())
   MunicipioId String
-  Municipio   Municipio @relation(fields: [MunicipioId], references: [Id])
   Ano         Int
   Mes         Int
   Etnia       Etnia
   Sexo        Sexo
   Valor       Int
-  CreatedAt   DateTime  @default(now())
-  UpdatedAt   DateTime  @updatedAt
+  Municipio   Municipio @relation(fields: [MunicipioId], references: [Id])
 
   @@unique([MunicipioId, Ano, Mes, Etnia, Sexo])
 }
 
 model RegistroRenda {
-  Id              String          @id @default(uuid())
+  Id              Int             @id @default(autoincrement())
   MunicipioId     String
-  Municipio       Municipio       @relation(fields: [MunicipioId], references: [Id])
   Ano             Int
   Mes             Int
   Categoria_renda Categoria_renda
   Valor           Float
-  CreatedAt       DateTime        @default(now())
-  UpdatedAt       DateTime        @updatedAt
+  Municipio       Municipio       @relation(fields: [MunicipioId], references: [Id])
 
   @@unique([MunicipioId, Ano, Mes, Categoria_renda])
   @@index([MunicipioId, Categoria_renda, Ano, Mes])
 }
 
-
 model RegistroTaxas {
-  Id          String         @id @default(uuid())
+  Id          Int           @id @default(autoincrement())
   MunicipioId String
-  Municipio   Municipio      @relation(fields: [MunicipioId], references: [Id])
   Ano         Int
   Mes         Int
-  Codigo      Int            
   Categoria   CategoriaTaxa
-  Valor       Float          
-  CreatedAt   DateTime       @default(now())
-  UpdatedAt   DateTime       @updatedAt
+  Valor       Float
+  Municipio   Municipio     @relation(fields: [MunicipioId], references: [Id])
 
   @@unique([MunicipioId, Ano, Mes, Categoria])
 }
 
 model RegistroTrabalhoInfantil {
-  Id          String                   @id @default(uuid())
+  Id          Int                       @id @default(autoincrement())
   MunicipioId String
-  Municipio   Municipio                @relation(fields: [MunicipioId], references: [Id])
   Ano         Int
   Mes         Int
-  Codigo      Int
   Categoria   CategoriaTrabalhoInfantil
-  Valor       Int                      // Usado Int para contagem de famílias
-  CreatedAt   DateTime                 @default(now())
-  UpdatedAt   DateTime                 @updatedAt
+  Valor       Int
+  Municipio   Municipio                 @relation(fields: [MunicipioId], references: [Id])
 
   @@unique([MunicipioId, Ano, Mes, Categoria])
 }
 
-// --- ENUMS ---
+model RegistroMoradoresRua {
+  Id           Int       @id @default(autoincrement())
+  MunicipioId  String
+  MoradoresRua Int
+  Ano          Int
+  Mes          Int
+  Municipio    Municipio @relation(fields: [MunicipioId], references: [Id])
+
+  @@unique([MunicipioId, Ano, Mes])
+  @@index([MunicipioId, Ano, Mes])
+}
 
 enum CategoriaTaxa {
   Taxa_acompanhamento_escolar
@@ -92,6 +89,7 @@ enum CategoriaTaxa {
 
 enum CategoriaTrabalhoInfantil {
   Familias_trabalho_infantil
+  Pessoas_trabalho_infantil
 }
 
 enum Categoria_renda {
