@@ -121,7 +121,7 @@ export default function ChartEtniaSexo({ data, titulo }: CharteProps) {
           plotOptions: {
             series: {
               gapSize: 10,
-              gapUnit: "month",
+              gapUnit: "relative",
             },
             line: {
               lineWidth: 2,
