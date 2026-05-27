@@ -9,9 +9,7 @@ export async function  getEtniaSexo(MunicipioID: string){
 
   const dados: any = {M:{},F:{}}
   data.forEach((dado) => {
-    if (dado.Sexo == "M"){
-      console.log(dado.Sexo, dado.Etnia)
-    }
+    
     const timestamp = toTimestamp(dado.Ano,dado.Mes)
     
     if (!dados[dado.Sexo][dado.Etnia]) {
@@ -85,8 +83,119 @@ export async function getMoradoresRua(MunicipioID: string) {
 
   data.forEach((dado) => {
     const timestamp = toTimestamp(dado.Ano, dado.Mes);
-
     dados.push([timestamp, dado.MoradoresRua]);
+  });
+
+  return dados;
+}
+
+export async function getAttCadastro(MunicipioID: string) {
+  const data = await prisma.registroTaxas.findMany({
+    where: {
+      MunicipioId: MunicipioID,
+Categoria: "Taxa_att_cadastro",
+    },
+    orderBy: [
+      { Ano: "asc" },
+      { Mes: "asc" },
+    ],
+  });
+
+  const dados: [number, number][] = [];
+
+  data.forEach((dado) => {
+    const timestamp = toTimestamp(dado.Ano, dado.Mes);
+
+    dados.push([timestamp, dado.Valor]);
+  });
+
+  return dados;
+}
+
+export async function getAcompanhamentoEscolar(MunicipioID: string) {
+  const data = await prisma.registroTaxas.findMany({
+    where: {
+      MunicipioId: MunicipioID,
+      Categoria: "Taxa_acompanhamento_escolar",
+    },
+    orderBy: [
+      { Ano: "asc" },
+      { Mes: "asc" },
+    ],
+  });
+
+  const dados: [number, number][] = [];
+
+  data.forEach((dado) => {
+    const timestamp = toTimestamp(dado.Ano, dado.Mes);
+
+    dados.push([timestamp, dado.Valor]);
+  });
+
+  return dados;
+}
+
+export async function getAcompanhamentoSaude(MunicipioID: string) {
+  const data = await prisma.registroTaxas.findMany({
+    where: {
+      MunicipioId: MunicipioID,
+      Categoria: "Taxa_acompanhamento_saude",
+    },
+    orderBy: [
+      { Ano: "asc" },
+      { Mes: "asc" },
+    ],
+  });
+
+  const dados: [number, number][] = [];
+
+  data.forEach((dado) => {
+    const timestamp = toTimestamp(dado.Ano, dado.Mes);
+
+    dados.push([timestamp, dado.Valor]);
+  });
+
+  return dados;
+}
+
+export async function getPessoasTrabalhoInfantil(MunicipioID: string) {
+  const data = await prisma.registroTrabalhoInfantil.findMany({
+    where: {
+      MunicipioId: MunicipioID,
+      Categoria:"Pessoas_trabalho_infantil"},
+    orderBy: [
+      { Ano: "asc" },
+      { Mes: "asc" },
+    ],
+  });
+
+  const dados: [number, number][] = [];
+
+  data.forEach((dado) => {
+    const timestamp = toTimestamp(dado.Ano, dado.Mes);
+
+    dados.push([timestamp, dado.Valor]);
+  });
+
+  return dados;
+}
+export async function getFamiliasTrabalhoInfantil(MunicipioID: string) {
+  const data = await prisma.registroTrabalhoInfantil.findMany({
+    where: {
+      MunicipioId: MunicipioID,
+      Categoria:"Familias_trabalho_infantil"},
+    orderBy: [
+      { Ano: "asc" },
+      { Mes: "asc" },
+    ],
+  });
+
+  const dados: [number, number][] = [];
+
+  data.forEach((dado) => {
+    const timestamp = toTimestamp(dado.Ano, dado.Mes);
+
+    dados.push([timestamp, dado.Valor]);
   });
 
   return dados;

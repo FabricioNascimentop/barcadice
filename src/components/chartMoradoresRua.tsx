@@ -3,7 +3,7 @@
 import "../styles/charts.css";
 
 import Highcharts from "highcharts";
-import HighchartsReact from "highcharts-react-official";
+import { Chart } from "@highcharts/react";
 
 interface ChartMoradoresRuaProps {
   titulo: string;
@@ -22,7 +22,7 @@ export function ChartMoradoresRua({
   };
 
   return (
-    <HighchartsReact
+    <Chart
       highcharts={Highcharts}
       options={{
         title: {
