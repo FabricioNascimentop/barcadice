@@ -1,67 +1,41 @@
-"use server"
-import { Suspense } from "react";
-import ChartEtniaSexo from "../components/chartEtniaSexo";
-import { MunicipioIdToNome, toTimestamp } from "../utils/utils";
-import { Sexo, Etnia } from "@prisma/client";
-import { getEtniaSexo, getMoradoresRua, getMunicipiosList, getRegistroRenda } from "../utils/data";
-import ChartRenda from "../components/chatRenda";
-import {ChartMoradoresRua} from "../components/chartMoradoresRua";
-// Definindo a estrutura do retorno para os gráficos
-type ChartDataGrouped = {
-  [key in Sexo]: {
-    [key in Etnia]?: [number, number][];
-  };
-};
+import { redirect } from "next/navigation";
+import { getMunicipiosList } from "../utils/data";
 
+export default async function App() {
 
-export default async function Home() {
-  const MunicipioID = '150130';
-  const Municipio = await MunicipioIdToNome(MunicipioID)
-  
-  const municipios_lst = await getMunicipiosList()
-  
-  const DataEtniaSexo = await getEtniaSexo(MunicipioID)
+  const municipios_lst = await getMunicipiosList();
+
+  async function selecionarMunicipio(formData: FormData) {
+    "use server";
+
+    const municipio = formData.get("municipio") as string;
+
+    redirect(`/municipio/${encodeURIComponent(municipio)}`);
+  }
 
   return (
     <main>
-      
-      <h1>Análise Demográfica - Município {Municipio}</h1>
-      
-      <Suspense fallback={<div>Carregando Gráfico Masculino...</div>}>
-        <ChartEtniaSexo 
-          titulo="Quantidade de responsáveis familiar por etnia (Masculino)" 
-          data={DataEtniaSexo.M} 
-        />
-      </Suspense>
 
-      <hr />
+      <form action={selecionarMunicipio}>
 
-      <Suspense fallback={<div>Carregando Gráfico Feminino...</div>}>
-        <ChartEtniaSexo 
-          titulo="Quantidade de responsáveis familiar por etnia (Feminino)" 
-          data={DataEtniaSexo.F} 
-        />
-      </Suspense>
+        <select name="municipio">
 
+          {municipios_lst.map((municipio) => (
+            <option
+              key={municipio.value}
+              value={municipio.label}
+            >
+              {municipio.label}
+            </option>
+          ))}
 
-      <hr />
+        </select>
 
-      <Suspense fallback={<div>Carregando Gráfico Renda...</div>}>
-        <ChartRenda 
-          titulo=" Pessoas cadastradas no Cadastro Único - por faixa de renda familiar per capita " 
-          data={await getRegistroRenda(MunicipioID)} 
-        />
-      </Suspense>
+        <button type="submit">
+          Entrar
+        </button>
 
-      <hr />
-
-      <Suspense fallback={<div>Carregando Gráfico Renda...</div>}>
-        <ChartMoradoresRua 
-          titulo="Número de pessoas em situação de rua inscritas no Cadastro Único" 
-          data={await getMoradoresRua(MunicipioID)} 
-        />
-
-      </Suspense>
+      </form>
 
     </main>
   );

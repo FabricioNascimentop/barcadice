@@ -2,14 +2,16 @@ import { prisma } from "../../prisma/lib/prisma";
 import { toTimestamp } from "./utils";
 
 
-export async function getEtniaSexo(MunicipioID: string){
+export async function  getEtniaSexo(MunicipioID: string){
   const data = await prisma.registroEtniaSexo.findMany({
     where: { MunicipioId: MunicipioID }
   });
 
   const dados: any = {M:{},F:{}}
-  console.log(data)
   data.forEach((dado) => {
+    if (dado.Sexo == "M"){
+      console.log(dado.Sexo, dado.Etnia)
+    }
     const timestamp = toTimestamp(dado.Ano,dado.Mes)
     
     if (!dados[dado.Sexo][dado.Etnia]) {
